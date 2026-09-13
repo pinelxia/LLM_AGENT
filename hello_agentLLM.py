@@ -39,7 +39,9 @@ class HelloAgentsLLM:
                 temperature=temperature,
                 stream= True
             )
-
+            #测
+                
+            #end
             print("大模型响应：")
             collected_content = []
             for chunk in response:
@@ -59,13 +61,13 @@ if __name__ == "__main__":
     try:
         llmClient = HelloAgentsLLM()
 
-        exampleMesages = [
+        exampleMessages = [
             {"role": "system", "content": "你是一个专业的算法工程师，擅长使用Python进行算法设计和实现。"},
-            {"role": "user", "content": "写一个快速排序算法"}
+            {"role": "user", "content": "python是什么"}
         ]
 
         print("调用LLM")
-        responseText = llmClient.think(messages=exampleMesages, temperature=0.3)
+        responseText = llmClient.think(messages=exampleMessages, temperature=0.3)
         if responseText:
             print("最终响应文本：")
             print(responseText)
