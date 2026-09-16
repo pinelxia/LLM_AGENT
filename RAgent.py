@@ -60,16 +60,17 @@ class ReActAgent:
             if not tool_name or not tool_input:
                 print("Invalid action format. Skipping.")
                 continue
+            else:                     #不加else，如果没有调用工具，还要输出tool_name和tool_input，有安全隐患
+                print(f"Executing tool: {tool_name} .The input: {tool_input}")
 
-            print(f"Executing tool: {tool_name} with input: {tool_input}")
+                tool_function = self.tool_executor.getTool(tool_name)
+                if not tool_function:
+                    observation = f"Tool {tool_name} not found."
+                else:
+                    observation = tool_function(tool_input)
 
-            tool_function = self.tool_executor.getTool(tool_name)
-            if not tool_function:
-                observation = f"Tool {tool_name} not found."
-            else:
-                observation = tool_function(tool_input)
+                print(f"Observation: {observation}")
 
-            print(f"Observation: {observation}")
 
             #将thought、action和observation添加到历史记录中
             self.history.append(f"Action: {action}")
@@ -111,6 +112,6 @@ if __name__ == "__main__":
     tool_executor.registerTool("search","一个SerpApi的实战网页搜索引擎工具。当你需要回答关于时事、事实以及在你的知识库中找不到的信息时，应使用此工具。",search)
 
     Sagent = ReActAgent(llm_client,tool_executor,max_steps=5)
-    question = "苹果最新推出的系统是？"
+    question = "华为最新款手机是？"
     final_answer = Sagent.run(question)
     print(f"\nFinal Answer: {final_answer}")
